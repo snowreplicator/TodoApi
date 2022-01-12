@@ -31,9 +31,9 @@ namespace TodoApi.Controllers
             _logger.LogInformation("log information - method get all");
             _logger.LogWarning("log warning - method get all");
 
-            //
+            // без dto
             // return await _context.TodoItems.ToListAsync();
-            //
+            // с dto
             //return await _context.TodoItems.Select(x => ItemToDTO(x)).ToListAsync();
             return await _context.TodoItems
                 .Select(x => ItemToDTO(x))
