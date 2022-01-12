@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Logging;
 using TodoApi.Models;
 
 namespace TodoApi.Controllers
@@ -14,17 +14,22 @@ namespace TodoApi.Controllers
     public class TodoItemsController : ControllerBase
     {
         private readonly TodoContext _context;
+        private readonly ILogger<TodoItemsController> _logger;
 
-        public TodoItemsController(TodoContext context)
+        public TodoItemsController(TodoContext context, ILogger<TodoItemsController> logger)
         {
             _context = context;
-        }
+            _logger = logger;
+        }        
 
         // GET: api/TodoItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
             Console.WriteLine("method get all");
+            _logger.LogInformation("log information - method get all");
+            _logger.LogWarning("log warning - method get all");
+
             return await _context.TodoItems.ToListAsync();
         }
 
@@ -33,6 +38,9 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
             Console.WriteLine("method get by id: {0}", id);
+            _logger.LogInformation("log information - method get  by id: {0}", id);
+            _logger.LogWarning("log warning - method get  by id: {0}", id);
+
             var todoItem = await _context.TodoItems.FindAsync(id);
 
             if (todoItem == null)

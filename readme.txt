@@ -9,3 +9,6 @@ https://localhost:44349/swagger/index.html
 https://localhost:44349/WeatherForecast
 
 https://localhost:44349/api/todoitems
+
+exe in console:
+https://localhost:5001/api/todoitems
