@@ -24,13 +24,20 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        //public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
         {
             Console.WriteLine("method get all");
             _logger.LogInformation("log information - method get all");
             _logger.LogWarning("log warning - method get all");
 
-            return await _context.TodoItems.ToListAsync();
+            //
+            // return await _context.TodoItems.ToListAsync();
+            //
+            //return await _context.TodoItems.Select(x => ItemToDTO(x)).ToListAsync();
+            return await _context.TodoItems
+                .Select(x => ItemToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/TodoItems/5
@@ -116,5 +123,14 @@ namespace TodoApi.Controllers
         {
             return _context.TodoItems.Any(e => e.Id == id);
         }
+
+        private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
+            new TodoItemDTO
+            {
+                Id = todoItem.Id,
+                Name = todoItem.Name,
+                IsComplete = todoItem.IsComplete
+            };
+
     }
 }
